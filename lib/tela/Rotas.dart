@@ -9,7 +9,7 @@ class Rotas {
 
       case "/":
         return MaterialPageRoute(
-          builder: (_) => Home()
+            builder: (_) => Home()
         );
 
       case "Cadastro":
@@ -19,23 +19,22 @@ class Rotas {
 
       default:
         _erroRota();
+
     }
 
   }
-
   static Route <dynamic> _erroRota(){
-    return MaterialPageRoute(
-      builder: (_) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text("Tela não encontrada"),
-          ),
-          body: Center(
-            child: Text("Tela não encontrada!"),
-          ),
-        );
-      }
-
+    return MaterialPageRoute (
+        builder: (_) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Tela não encontrada "),
+            ),
+            body: Center(
+              child:  Text("Tela não encontrada !"),
+            ),
+          );
+        }
     );
   }
 }

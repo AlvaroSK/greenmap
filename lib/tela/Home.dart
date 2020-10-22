@@ -12,9 +12,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Cadastro")
-      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage("imagens/fundo.png"),
@@ -71,11 +68,11 @@ class _HomeState extends State<Home> {
 
                 Center(
                   child: GestureDetector(
-                    child: Text("Não possui conta ? Cadastre-se!", style:  TextStyle(color: Colors.lightGreen),
+                    child: Text("Caso não possua conta, cadastre-se !", style: TextStyle(color: Colors.red),
                     ),
                     onTap: (){
                       Navigator.pushNamed(context, "Cadastro");
-                    }
+                    },
                   ),
                 )
 
