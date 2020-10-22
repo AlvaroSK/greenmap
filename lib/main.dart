@@ -9,7 +9,7 @@ final ThemeData Padrao = ThemeData(
 
 void main() {
   runApp(MaterialApp(
-    title: "exemplo",
+    title: "Green Map",
     home: Home(),
     theme: Padrao,
     initialRoute: "/",
