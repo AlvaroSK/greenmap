@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:green_map/tela/login.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -7,6 +8,8 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
+  String _email, _senha;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -39,9 +42,11 @@ class _CadastroState extends State<Cadastro> {
           ),
           Container(
               padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+              key: _formKey,
               child: Column(
                 children: <Widget>[
-                  TextField(
+                  TextFormField(
+                    onSaved: (input) => _email = input,
                     decoration: InputDecoration(
                         labelText: 'EMAIL',
                         labelStyle: TextStyle(
@@ -54,7 +59,8 @@ class _CadastroState extends State<Cadastro> {
                             borderSide: BorderSide(color: Colors.green))),
                   ),
                   SizedBox(height: 10.0),
-                  TextField(
+                  TextFormField(
+                    onSaved: (input) => _senha = input,
                     decoration: InputDecoration(
                         labelText: 'SENHA ',
                         labelStyle: TextStyle(
@@ -84,7 +90,7 @@ class _CadastroState extends State<Cadastro> {
                         shadowColor: Colors.greenAccent,
                         color: Colors.green,
                         elevation: 7.0,
-                        child: GestureDetector(
+                        child: InkWell(
                           onTap: () {},
                           child: Center(
                             child: Text(
@@ -130,5 +136,7 @@ class _CadastroState extends State<Cadastro> {
               )),
         ]));
 
+
   }
 }
+

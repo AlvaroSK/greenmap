@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:green_map/tela/Cadastro.dart';
 import 'package:green_map/tela/Home.dart';
+import 'package:green_map/tela/login.dart';
 
 class Rotas {
 
@@ -9,12 +10,17 @@ class Rotas {
 
       case "/":
         return MaterialPageRoute(
-            builder: (_) => Home()
+            builder: (_) => Login()
         );
 
       case "Cadastro":
         return MaterialPageRoute(
             builder: (_) => Cadastro()
+        );
+
+      case "Home":
+        return MaterialPageRoute(
+            builder: (_) => Home()
         );
 
       default:

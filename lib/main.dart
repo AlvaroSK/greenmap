@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:green_map/tela/Home.dart';
+import 'package:green_map/tela/login.dart';
 import 'package:green_map/tela/Rotas.dart';
 
 final ThemeData Padrao = ThemeData(
@@ -10,7 +10,7 @@ final ThemeData Padrao = ThemeData(
 void main() {
   runApp(MaterialApp(
     title: "Green Map",
-    home: Home(),
+    home: Login(),
     theme: Padrao,
     initialRoute: "/",
     onGenerateRoute: Rotas.gerarRotas,
