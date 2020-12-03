@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:green_map/models/Usuario.dart';
+import 'package:green_map/tela/PontoColeta.dart';
 import 'package:green_map/tela/login.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -8,8 +12,78 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
-  String _email, _senha;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  TextEditingController _controllerNome = TextEditingController();
+  TextEditingController _controllerEmail = TextEditingController();
+  TextEditingController _controllerSenha = TextEditingController();
+  bool _tipoUsuario = false;
+  String _mensagemErro = "";
+
+  _validarCampos(){
+    String nome = _controllerNome.text;
+    String email = _controllerEmail.text;
+    String senha = _controllerSenha.text;
+
+    if (nome.isNotEmpty) {
+
+      if (email.isNotEmpty && email.contains("@")) {
+
+        if(senha.isNotEmpty){
+          Usuario usuario = Usuario();
+          usuario.nome = nome;
+          usuario.email = email;
+          usuario.senha = senha;
+          usuario.tipoUsuario = usuario.verificaTipoUsuario(_tipoUsuario);
+          _cadastrarUsuario(usuario);
+        } else {
+          setState(() {
+            _mensagemErro = "Você deve digitar uma senha válida.";
+          });
+
+        }
+
+      } else {
+        setState(() {
+          _mensagemErro = "Você deve digitar um email válido.";
+        });
+
+      }
+
+    } else {
+      setState(() {
+        _mensagemErro = "Você deve digitar um nome válido.";
+      });
+
+    }
+
+  }
+  
+  _cadastrarUsuario (Usuario usuario) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    
+    auth.createUserWithEmailAndPassword(
+        email: usuario.email,
+        password: usuario.senha).then((FirebaseUser){
+          db.collection("usuarios")
+              .doc(FirebaseUser.user.uid)
+              .set(usuario.toMap());
+          switch(usuario.tipoUsuario){
+            case "coletor" :
+              Navigator.pushNamedAndRemoveUntil(context,
+                  "/PontoColeta",
+                      (route) => false);
+              break;
+            case "usuario" :
+              Navigator.pushNamedAndRemoveUntil(context,
+                  "/login",
+                      (route) => false);
+                  break;
+          }
+    });
+    
+  }
+  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -42,11 +116,10 @@ class _CadastroState extends State<Cadastro> {
           ),
           Container(
               padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-              key: _formKey,
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    onSaved: (input) => _email = input,
+                    controller: _controllerEmail,
                     decoration: InputDecoration(
                         labelText: 'EMAIL',
                         labelStyle: TextStyle(
@@ -60,7 +133,7 @@ class _CadastroState extends State<Cadastro> {
                   ),
                   SizedBox(height: 10.0),
                   TextFormField(
-                    onSaved: (input) => _senha = input,
+                    controller: _controllerSenha,
                     decoration: InputDecoration(
                         labelText: 'SENHA ',
                         labelStyle: TextStyle(
@@ -73,6 +146,7 @@ class _CadastroState extends State<Cadastro> {
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: _controllerNome,
                     decoration: InputDecoration(
                         labelText: 'SEU NOME ',
                         labelStyle: TextStyle(
@@ -82,6 +156,23 @@ class _CadastroState extends State<Cadastro> {
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green))),
                   ),
+                  Padding(padding: EdgeInsets.only(bottom: 0, top: 10),
+                    child: Row(
+                      children: [
+                        Text("Usuário", style:
+                        TextStyle(fontSize: 15, fontFamily: 'Montserrat', fontWeight: FontWeight.bold, color: Colors.black45),),
+                        Switch(value: _tipoUsuario, onChanged: (bool valor){
+                          setState(() {
+                            _tipoUsuario = valor;
+                          });
+                        }
+                        ),
+                        Text("Coletor", style:
+                        TextStyle(fontSize: 15, fontFamily: 'Montserrat', fontWeight: FontWeight.bold, color: Colors.black45),),
+                      ]
+                    )
+                  ),
+
                   SizedBox(height: 50.0),
                   Container(
                       height: 40.0,
@@ -91,7 +182,9 @@ class _CadastroState extends State<Cadastro> {
                         color: Colors.green,
                         elevation: 7.0,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            _validarCampos();
+                          },
                           child: Center(
                             child: Text(
                               'CADASTRAR',
@@ -120,7 +213,6 @@ class _CadastroState extends State<Cadastro> {
                           Navigator.of(context).pop();
                         },
                         child:
-
                         Center(
                           child: Text('Já possuo conta!',
                               style: TextStyle(
