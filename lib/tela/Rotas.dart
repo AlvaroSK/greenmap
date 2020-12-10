@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:green_map/tela/Cadastro.dart';
 import 'package:green_map/tela/Home.dart';
+import 'package:green_map/tela/Ponto-Form.dart';
+import 'package:green_map/tela/PontoColeta.dart';
 import 'package:green_map/tela/login.dart';
 import 'Mapa.dart';
 
@@ -27,6 +29,16 @@ class Rotas {
       case "Mapa":
         return MaterialPageRoute(
             builder: (_) => Mapa()
+        );
+
+      case "PontoForm":
+        return MaterialPageRoute(
+            builder: (_) => PontoForm()
+        );
+
+      case "PontoColeta":
+        return MaterialPageRoute(
+            builder: (_) => PontoColeta()
         );
 
       default:

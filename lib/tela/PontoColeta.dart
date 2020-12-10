@@ -11,23 +11,21 @@ class PontoColeta extends StatelessWidget {
   Widget build(BuildContext context){
     final PontosProvider pontos = Provider.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Lista de Pontos de Coleta'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: (){
-              Navigator.of(context).pushNamed(
-                AppRoutes.PONTO_FORM
-              );
-            },
-          )
-        ],
-      ),
-      body: ListView.builder(
+        appBar: AppBar(
+          title: Text('Lista de Pontos de Coleta'),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: (){
+                Navigator.of(context).pushNamed(AppRoutes.PONTO_FORM);
+              },
+            )
+          ],
+        ),
+        body: ListView.builder(
           itemCount: pontos.count,
           itemBuilder: (ctx, i) => pontoColetaTile(pontos.byIndex(i)),
-      )
+        )
     );
   }
 }

@@ -19,71 +19,6 @@ class _CadastroState extends State<Cadastro> {
   bool _tipoUsuario = false;
   String _mensagemErro = "";
 
-  _validarCampos(){
-    String nome = _controllerNome.text;
-    String email = _controllerEmail.text;
-    String senha = _controllerSenha.text;
-
-    if (nome.isNotEmpty) {
-
-      if (email.isNotEmpty && email.contains("@")) {
-
-        if(senha.isNotEmpty){
-          Usuario usuario = Usuario();
-          usuario.nome = nome;
-          usuario.email = email;
-          usuario.senha = senha;
-          usuario.tipoUsuario = usuario.verificaTipoUsuario(_tipoUsuario);
-          _cadastrarUsuario(usuario);
-        } else {
-          setState(() {
-            _mensagemErro = "Você deve digitar uma senha válida.";
-          });
-
-        }
-
-      } else {
-        setState(() {
-          _mensagemErro = "Você deve digitar um email válido.";
-        });
-
-      }
-
-    } else {
-      setState(() {
-        _mensagemErro = "Você deve digitar um nome válido.";
-      });
-
-    }
-
-  }
-  
-  _cadastrarUsuario (Usuario usuario) {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    FirebaseFirestore db = FirebaseFirestore.instance;
-    
-    auth.createUserWithEmailAndPassword(
-        email: usuario.email,
-        password: usuario.senha).then((FirebaseUser){
-          db.collection("usuarios")
-              .doc(FirebaseUser.user.uid)
-              .set(usuario.toMap());
-          switch(usuario.tipoUsuario){
-            case "coletor" :
-              Navigator.pushNamedAndRemoveUntil(context,
-                  "/PontoColeta",
-                      (route) => false);
-              break;
-            case "usuario" :
-              Navigator.pushNamedAndRemoveUntil(context,
-                  "/login",
-                      (route) => false);
-                  break;
-          }
-    });
-    
-  }
-  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -183,7 +118,7 @@ class _CadastroState extends State<Cadastro> {
                         elevation: 7.0,
                         child: InkWell(
                           onTap: () {
-                            _validarCampos();
+                            Navigator.of(context).pushNamed("Mapa");
                           },
                           child: Center(
                             child: Text(

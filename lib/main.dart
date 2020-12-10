@@ -15,7 +15,7 @@ void main() async {
     title: "Green Map",
     home: Login(),
     theme: Padrao,
-    initialRoute: "/",
+    initialRoute: "PontoColeta",
     onGenerateRoute: Rotas.gerarRotas,
     debugShowCheckedModeBanner: false,
   ));

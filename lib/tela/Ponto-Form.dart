@@ -4,6 +4,7 @@ import 'package:green_map/models/pontoColeta.dart';
 import 'package:green_map/provider/PontosProvider.dart';
 import 'package:green_map/tela/PontoColeta.dart';
 import 'package:provider/provider.dart';
+import 'package:green_map/tela/Mapa.dart';
 
 class PontoForm extends StatelessWidget{
 
@@ -51,12 +52,14 @@ class PontoForm extends StatelessWidget{
                  ),
                  );
                  Navigator.of(context).pop();
+                 Navigator.of(context).pushNamed("Mapa");
                }
               })
         ]
       ),
       body: Padding(
           padding: EdgeInsets.all(15),
+          child: SingleChildScrollView(
           child: Form(
             key: _form,
             child: Column(
@@ -128,7 +131,8 @@ class PontoForm extends StatelessWidget{
                 ),
               ],
             ),
-          )
+          ),
+          ),
       ),
     );
   }

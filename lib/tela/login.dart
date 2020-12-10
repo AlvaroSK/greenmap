@@ -169,7 +169,7 @@ class _LoginState extends State<Login> {
                         elevation: 7.0,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pushNamed("Home");
+                            Navigator.of(context).pushNamed("Mapa");
                           },
                           child: Center(
                             child: Text(
